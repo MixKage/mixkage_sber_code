@@ -13,7 +13,7 @@ class EmailNotifyCheckBoxCubit extends Cubit<EmailNotifyState> {
 
   EmailNotifyCheckBoxCubit(this._iserv) : super(const LoadingEmailState());
 
-  void setValue(final bool value) async {
+  Future<void> setValue(final bool value) async {
     try {
       try {
         await _iserv.updateEmailSettings(newValue: value);
@@ -29,10 +29,10 @@ class EmailNotifyCheckBoxCubit extends Cubit<EmailNotifyState> {
     }
   }
 
-  void getValue() async {
+  Future<void> getValue() async {
     try {
-      int userId = int.parse(
-          (await getIt<SecureStorage>().get(key: SSKeys.userId.keyName))!);
+      final int userId = int.parse(
+          (await getIt<SecureStorage>().get(key: SSKeys.userId.keyName))!,);
       try {
         final user = await _iserv.getUserById(userId: userId);
         await getIt<InternetServiceLocal>().updateAllUser(newUser: user);

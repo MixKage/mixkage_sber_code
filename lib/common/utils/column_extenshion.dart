@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 extension ColumnSpacing on Column {
   /// Создает новый [Column] с отступами между дочерними виджетами.
-  Column withSpacing(double spacing) {
+  Column withSpacing(final double spacing) {
     // Создаем список виджетов с отступами
     final childrenWithSpacing = <Widget>[];
     for (int i = 0; i < children.length; i++) {

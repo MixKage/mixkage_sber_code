@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mixkage_sber_code/app/app.dart';
 import 'package:logger/logger.dart' as l;
+import 'package:mixkage_sber_code/app/app.dart';
 import 'package:mixkage_sber_code/common/config/config.dart';
 import 'package:mixkage_sber_code/common/log/logger.dart';
 import 'package:mixkage_sber_code/common/log/logger_bloc_observer.dart';

@@ -41,10 +41,10 @@ Future<void> initInjectionContainer() async {
   });
 
   // Работа с локальным хранилищем
-  getIt.registerLazySingleton<InternetServiceLocal>(() {
-    return InternetServiceLocal(secureStorage);
-  });
+  getIt.registerLazySingleton<InternetServiceLocal>(
+    () => InternetServiceLocal(secureStorage),
+  );
 
   // Иницализация сервиса по работе с уведомлениями
-  NotificationService().init();
+  await NotificationService().init();
 }

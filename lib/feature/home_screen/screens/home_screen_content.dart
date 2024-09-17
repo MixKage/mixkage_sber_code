@@ -9,7 +9,6 @@ import 'package:mixkage_sber_code/feature/settings_screen/bloc/email/checkbox/em
 import 'package:mixkage_sber_code/feature/settings_screen/bloc/push/push_notify_cubit.dart';
 import 'package:mixkage_sber_code/feature/settings_screen/bloc/sms/checkbox/sms_notify_cubit.dart';
 import 'package:mixkage_sber_code/feature/settings_screen/widgets/custom_section.dart';
-import 'package:mixkage_sber_code/routes/app_router.dart';
 import 'package:mixkage_sber_code/routes/routes.dart';
 import 'package:motion/motion.dart';
 import 'package:shimmer/shimmer.dart';
@@ -39,65 +38,64 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
+  Widget build(final BuildContext context) => SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Column(
           children: [
             const Padding(
-              padding: EdgeInsets.all(22.0),
+              padding: EdgeInsets.all(22),
               child: Motion(child: UserCard()),
             ),
             CustomSection('Работа уведомлений', [
               SizedBox(
                 width: double.infinity,
                 child: BlocBuilder<PushNotifyCheckBoxCubit, PushNotifyState>(
-                  builder: (context, state) {
+                  builder: (final context, final state) {
                     if (state is LoadedPushState) {
                       return ElevatedButton(
                           onPressed: state.isEnable ? sendNotify : null,
-                          child: const Text('Send PUSH'));
+                          child: const Text('Send PUSH'),);
                     }
                     return Shimmer.fromColors(
                         baseColor: AppColorScheme.of(context).shimmer,
                         highlightColor: Colors.grey,
                         child: ElevatedButton(
-                            onPressed: () {}, child: const SizedBox()));
+                            onPressed: () {}, child: const SizedBox(),),);
                   },
                 ),
               ),
               SizedBox(
                 width: double.infinity,
                 child: BlocBuilder<SmsNotifyCheckBoxCubit, SmsNotifyState>(
-                  builder: (context, state) {
+                  builder: (final context, final state) {
                     if (state is LoadedSmsState) {
                       return ElevatedButton(
                           onPressed: state.isEnable ? sendNotify : null,
-                          child: const Text('Send SMS'));
+                          child: const Text('Send SMS'),);
                     }
                     return Shimmer.fromColors(
                         baseColor: AppColorScheme.of(context).shimmer,
                         highlightColor: Colors.grey,
                         child: ElevatedButton(
-                            onPressed: () {}, child: const SizedBox()));
+                            onPressed: () {}, child: const SizedBox(),),);
                   },
                 ),
               ),
               SizedBox(
                 width: double.infinity,
                 child: BlocBuilder<EmailNotifyCheckBoxCubit, EmailNotifyState>(
-                  builder: (context, state) {
+                  builder: (final context, final state) {
                     if (state is LoadedEmailState) {
                       return ElevatedButton(
                           onPressed: state.isEnable ? sendNotify : null,
-                          child: const Text('Send EMAIL'));
+                          child: const Text('Send EMAIL'),);
                     }
                     return Shimmer.fromColors(
                         baseColor: AppColorScheme.of(context).shimmer,
                         highlightColor: Colors.grey,
                         child: ElevatedButton(
-                            onPressed: () {}, child: const SizedBox()));
+                            onPressed: () {}, child: const SizedBox(),),);
                   },
                 ),
               ),
@@ -109,16 +107,15 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                   onPressed: () => context.pushNamed(Routes.settings.toName),
                   child: const Text('Открыть настройки'),
                 ),
-              )
+              ),
             ]),
-            SizedBox(
+            const SizedBox(
               height: 20,
-            )
+            ),
           ],
-        ).withSpacing(12.0),
+        ).withSpacing(12),
       ),
     );
-  }
 }
 
 //return Container(

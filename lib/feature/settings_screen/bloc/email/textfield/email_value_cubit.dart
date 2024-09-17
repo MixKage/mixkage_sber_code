@@ -31,8 +31,8 @@ class EmailValueCubit extends Cubit<EmailValueState> {
 
   Future<void> getValue() async {
     try {
-      int userId = int.parse(
-          (await getIt<SecureStorage>().get(key: SSKeys.userId.keyName))!);
+      final int userId = int.parse(
+          (await getIt<SecureStorage>().get(key: SSKeys.userId.keyName))!,);
       try {
         final user = await _iserv.getUserById(userId: userId);
         await getIt<InternetServiceLocal>().updateAllUser(newUser: user);
@@ -42,7 +42,7 @@ class EmailValueCubit extends Cubit<EmailValueState> {
         final user =
             await getIt<InternetServiceLocal>().getUserById(userId: userId);
         emit(LoadedValueEmailState(
-            user.notificationSettings.email.address ?? ''));
+            user.notificationSettings.email.address ?? '',),);
       }
     } on Object {
       emit(const EmailValueErrorState(true));

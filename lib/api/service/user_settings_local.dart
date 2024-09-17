@@ -10,10 +10,11 @@ class InternetServiceLocal implements InternetService {
   InternetServiceLocal(this._sstorage);
 
   @override
-  Future<User> getUserById({required int userId}) async {
+  Future<User> getUserById({required final int userId}) async {
     try {
       return User.fromJson(
-          (await _sstorage.getMap(key: '${SSKeys.user.keyName}/$userId'))!);
+        (await _sstorage.getMap(key: '${SSKeys.user.keyName}/$userId'))!,
+      );
     } catch (e) {
       logger.e(e.toString());
       rethrow;
@@ -21,9 +22,12 @@ class InternetServiceLocal implements InternetService {
   }
 
   @override
-  Future<void> updateEmailSettings({String? newEmail, bool? newValue}) async {
+  Future<void> updateEmailSettings({
+    final String? newEmail,
+    final bool? newValue,
+  }) async {
     try {
-      int userId =
+      final int userId =
           int.parse((await _sstorage.get(key: SSKeys.userId.keyName))!);
 
       final User user = await getUserById(userId: userId);
@@ -32,9 +36,11 @@ class InternetServiceLocal implements InternetService {
         key: '${SSKeys.user.keyName}/$userId',
         data: user
             .copyWith(
-                notificationSettings: user.notificationSettings.copyWith(
-                    email: user.notificationSettings.email
-                        .copyWith(address: newEmail, enabled: newValue)))
+              notificationSettings: user.notificationSettings.copyWith(
+                email: user.notificationSettings.email
+                    .copyWith(address: newEmail, enabled: newValue),
+              ),
+            )
             .toJson(),
       );
     } catch (e) {
@@ -44,9 +50,9 @@ class InternetServiceLocal implements InternetService {
   }
 
   @override
-  Future<void> updatePushSettings({required bool newValue}) async {
+  Future<void> updatePushSettings({required final bool newValue}) async {
     try {
-      int userId =
+      final int userId =
           int.parse((await _sstorage.get(key: SSKeys.userId.keyName))!);
 
       final User user = await getUserById(userId: userId);
@@ -55,9 +61,11 @@ class InternetServiceLocal implements InternetService {
         key: '${SSKeys.user.keyName}/$userId',
         data: user
             .copyWith(
-                notificationSettings: user.notificationSettings.copyWith(
-                    push: user.notificationSettings.push
-                        .copyWith(enabled: newValue)))
+              notificationSettings: user.notificationSettings.copyWith(
+                push:
+                    user.notificationSettings.push.copyWith(enabled: newValue),
+              ),
+            )
             .toJson(),
       );
     } catch (e) {
@@ -67,9 +75,12 @@ class InternetServiceLocal implements InternetService {
   }
 
   @override
-  Future<void> updateSmsSettings({String? newPhone, bool? newValue}) async {
+  Future<void> updateSmsSettings({
+    final String? newPhone,
+    final bool? newValue,
+  }) async {
     try {
-      int userId =
+      final int userId =
           int.parse((await _sstorage.get(key: SSKeys.userId.keyName))!);
 
       final User user = await getUserById(userId: userId);
@@ -78,9 +89,11 @@ class InternetServiceLocal implements InternetService {
         key: '${SSKeys.user.keyName}/$userId',
         data: user
             .copyWith(
-                notificationSettings: user.notificationSettings.copyWith(
-                    sms: user.notificationSettings.sms
-                        .copyWith(number: newPhone, enabled: newValue)))
+              notificationSettings: user.notificationSettings.copyWith(
+                sms: user.notificationSettings.sms
+                    .copyWith(number: newPhone, enabled: newValue),
+              ),
+            )
             .toJson(),
       );
     } catch (e) {
@@ -90,9 +103,9 @@ class InternetServiceLocal implements InternetService {
   }
 
   @override
-  Future<void> updateUserName({required String newName}) async {
+  Future<void> updateUserName({required final String newName}) async {
     try {
-      int userId =
+      final int userId =
           int.parse((await _sstorage.get(key: SSKeys.userId.keyName))!);
 
       final user = await getUserById(userId: userId);
@@ -107,9 +120,9 @@ class InternetServiceLocal implements InternetService {
     }
   }
 
-  Future<void> updateAllUser({required User newUser}) async {
+  Future<void> updateAllUser({required final User newUser}) async {
     try {
-      int userId =
+      final int userId =
           int.parse((await _sstorage.get(key: SSKeys.userId.keyName))!);
 
       await _sstorage.addMap(

@@ -13,6 +13,7 @@ import 'package:mixkage_sber_code/feature/settings_screen/bloc/sms/checkbox/sms_
 import 'package:mixkage_sber_code/feature/settings_screen/bloc/sms/textfield/sms_value_cubit.dart';
 import 'package:mixkage_sber_code/feature/settings_screen/widgets/custom_section.dart';
 import 'package:mixkage_sber_code/injection_container.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SettingsScreenContent extends StatefulWidget {
@@ -47,257 +48,260 @@ class _SettingsScreenContentState extends State<SettingsScreenContent> {
   }
 
   Future<void> changeTheme() async {
-    final themeStorage = ActiveThemeStorage(getIt());
-    bool isLight =
+    final themeStorage = ActiveThemeStorage(getIt<SharedPreferences>());
+    final bool isLight =
         ((await themeStorage.getActiveTheme()) ?? 'system') == 'light';
 
-    context.read<ThemeBloc>().add(
-        ThemeSave(activeTheme: isLight ? ThemeMode.dark : ThemeMode.light));
+    if (mounted) {
+      context.read<ThemeBloc>().add(
+            ThemeSave(activeTheme: isLight ? ThemeMode.dark : ThemeMode.light),
+          );
+    }
   }
 
   Future<void> saveButton() async {
     await context.read<EmailValueCubit>().setValue(emailController.text);
-    if (mounted) context.read<SmsValueCubit>().setValue(phoneController.text);
+    if (mounted) {
+      await context.read<SmsValueCubit>().setValue(phoneController.text);
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 22,
-            ),
-            //TODO: LOCATE IT
-            CustomSection(
-              'Уведомления',
-              [
-                BlocConsumer<PushNotifyCheckBoxCubit, PushNotifyState>(
-                  listener: (context, state) {
-                    if (state is PushErrorState) {
-                      final err = state.isCrit
-                          ? 'Произошла критическая ошибка'
-                          : 'Ошибка соединения с сервером. Данные обрабатываются локальным хранилищем';
-                      CustomSnackbar.showSnackBar(context, err);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is LoadedPushState) {
-                      return SwitchListTile(
-                        title: const Text(
-                          'Enable Push Notifications',
-                        ),
-                        value: state.isEnable,
-                        onChanged:
-                            context.read<PushNotifyCheckBoxCubit>().setValue,
-                      );
-                    } else {
-                      return Shimmer.fromColors(
-                        baseColor: AppColorScheme.of(context).shimmer,
-                        highlightColor: Colors.black,
-                        child: SwitchListTile(
+  Widget build(final BuildContext context) => SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 22,
+              ),
+              //TODO: LOCATE IT
+              CustomSection(
+                'Уведомления',
+                [
+                  BlocConsumer<PushNotifyCheckBoxCubit, PushNotifyState>(
+                    listener: (final context, final state) {
+                      if (state is PushErrorState) {
+                        final err = state.isCrit
+                            ? 'Произошла критическая ошибка'
+                            : 'Ошибка соединения с сервером. Данные обрабатываются локальным хранилищем';
+                        CustomSnackbar.showSnackBar(context, err);
+                      }
+                    },
+                    builder: (final context, final state) {
+                      if (state is LoadedPushState) {
+                        return SwitchListTile(
                           title: const Text(
                             'Enable Push Notifications',
                           ),
-                          value: false,
-                          onChanged: (value) {},
-                        ),
-                      );
-                    }
-                  },
-                ),
-                BlocConsumer<SmsNotifyCheckBoxCubit, SmsNotifyState>(
-                  listener: (context, state) {
-                    if (state is SmsErrorState) {
-                      final err = state.isCrit
-                          ? 'Произошла критическая ошибка'
-                          : 'Ошибка соединения с сервером. Данные обрабатываются локальным хранилищем';
-                      CustomSnackbar.showSnackBar(context, err);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is LoadedSmsState) {
-                      return SwitchListTile(
-                        title: const Text(
-                          'Enable SMS Notifications',
-                        ),
-                        value: state.isEnable,
-                        onChanged:
-                            context.read<SmsNotifyCheckBoxCubit>().setValue,
-                      );
-                    } else {
-                      return Shimmer.fromColors(
-                        baseColor: AppColorScheme.of(context).shimmer,
-                        highlightColor: Colors.black,
-                        child: SwitchListTile(
+                          value: state.isEnable,
+                          onChanged:
+                              context.read<PushNotifyCheckBoxCubit>().setValue,
+                        );
+                      } else {
+                        return Shimmer.fromColors(
+                          baseColor: AppColorScheme.of(context).shimmer,
+                          highlightColor: Colors.black,
+                          child: SwitchListTile(
+                            title: const Text(
+                              'Enable Push Notifications',
+                            ),
+                            value: false,
+                            onChanged: (final value) {},
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  BlocConsumer<SmsNotifyCheckBoxCubit, SmsNotifyState>(
+                    listener: (final context, final state) {
+                      if (state is SmsErrorState) {
+                        final err = state.isCrit
+                            ? 'Произошла критическая ошибка'
+                            : 'Ошибка соединения с сервером. Данные обрабатываются локальным хранилищем';
+                        CustomSnackbar.showSnackBar(context, err);
+                      }
+                    },
+                    builder: (final context, final state) {
+                      if (state is LoadedSmsState) {
+                        return SwitchListTile(
                           title: const Text(
                             'Enable SMS Notifications',
                           ),
-                          value: false,
-                          onChanged: (value) {},
-                        ),
-                      );
-                    }
-                  },
-                ),
-                BlocConsumer<EmailNotifyCheckBoxCubit, EmailNotifyState>(
-                  listener: (context, state) {
-                    if (state is EmailErrorState) {
-                      final err = state.isCrit
-                          ? 'Произошла критическая ошибка'
-                          : 'Ошибка соединения с сервером. Данные обрабатываются локальным хранилищем';
-                      CustomSnackbar.showSnackBar(context, err);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is LoadedEmailState) {
-                      return SwitchListTile(
-                        title: const Text(
-                          'Enable Email Notifications',
-                        ),
-                        value: state.isEnable,
-                        onChanged:
-                            context.read<EmailNotifyCheckBoxCubit>().setValue,
-                      );
-                    } else {
-                      return Shimmer.fromColors(
-                        baseColor: AppColorScheme.of(context).shimmer,
-                        highlightColor: Colors.black,
-                        child: SwitchListTile(
+                          value: state.isEnable,
+                          onChanged:
+                              context.read<SmsNotifyCheckBoxCubit>().setValue,
+                        );
+                      } else {
+                        return Shimmer.fromColors(
+                          baseColor: AppColorScheme.of(context).shimmer,
+                          highlightColor: Colors.black,
+                          child: SwitchListTile(
+                            title: const Text(
+                              'Enable SMS Notifications',
+                            ),
+                            value: false,
+                            onChanged: (final value) {},
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  BlocConsumer<EmailNotifyCheckBoxCubit, EmailNotifyState>(
+                    listener: (final context, final state) {
+                      if (state is EmailErrorState) {
+                        final err = state.isCrit
+                            ? 'Произошла критическая ошибка'
+                            : 'Ошибка соединения с сервером. Данные обрабатываются локальным хранилищем';
+                        CustomSnackbar.showSnackBar(context, err);
+                      }
+                    },
+                    builder: (final context, final state) {
+                      if (state is LoadedEmailState) {
+                        return SwitchListTile(
                           title: const Text(
                             'Enable Email Notifications',
                           ),
-                          value: false,
-                          onChanged: (value) {},
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
-            CustomSection(
-              'Дополнительная информация',
-              [
-                BlocConsumer<EmailValueCubit, EmailValueState>(
-                  listener: (context, state) {
-                    if (state is LoadedValueEmailState) {
-                      emailController.text = state.email;
-                    } else if (state is EmailValueErrorState) {
-                      final err = state.isCrit
-                          ? 'Произошла критическая ошибка'
-                          : 'Ошибка соединения с сервером. Данные обрабатываются локальным хранилищем';
-                      CustomSnackbar.showSnackBar(context, err);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is LoadedValueEmailState) {
-                      return TextField(
-                        controller: emailController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter your email',
-                        ),
-                      );
-                    } else {
-                      return Shimmer.fromColors(
-                        baseColor: AppColorScheme.of(context).shimmer,
-                        highlightColor: Colors.black,
-                        child: Container(
-                          height: 60,
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                              color: Colors.black12,
+                          value: state.isEnable,
+                          onChanged:
+                              context.read<EmailNotifyCheckBoxCubit>().setValue,
+                        );
+                      } else {
+                        return Shimmer.fromColors(
+                          baseColor: AppColorScheme.of(context).shimmer,
+                          highlightColor: Colors.black,
+                          child: SwitchListTile(
+                            title: const Text(
+                              'Enable Email Notifications',
+                            ),
+                            value: false,
+                            onChanged: (final value) {},
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+              CustomSection(
+                'Дополнительная информация',
+                [
+                  BlocConsumer<EmailValueCubit, EmailValueState>(
+                    listener: (final context, final state) {
+                      if (state is LoadedValueEmailState) {
+                        emailController.text = state.email;
+                      } else if (state is EmailValueErrorState) {
+                        final err = state.isCrit
+                            ? 'Произошла критическая ошибка'
+                            : 'Ошибка соединения с сервером. Данные обрабатываются локальным хранилищем';
+                        CustomSnackbar.showSnackBar(context, err);
+                      }
+                    },
+                    builder: (final context, final state) {
+                      if (state is LoadedValueEmailState) {
+                        return TextField(
+                          controller: emailController,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter your email',
+                          ),
+                        );
+                      } else {
+                        return Shimmer.fromColors(
+                          baseColor: AppColorScheme.of(context).shimmer,
+                          highlightColor: Colors.black,
+                          child: Container(
+                            height: 60,
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                color: Colors.black12,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                  },
-                ),
-                BlocConsumer<SmsValueCubit, SmsValueState>(
-                  listener: (context, state) {
-                    if (state is LoadedValueSmsState) {
-                      phoneController.text = state.number;
-                    } else if (state is SmsValueErrorState) {
-                      final err = state.isCrit
-                          ? 'Произошла критическая ошибка'
-                          : 'Ошибка соединения с сервером. Данные обрабатываются локальным хранилищем';
-                      CustomSnackbar.showSnackBar(context, err);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is LoadedValueSmsState) {
-                      return TextField(
-                        controller: phoneController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter your number',
-                        ),
-                      );
-                    } else {
-                      return Shimmer.fromColors(
-                        baseColor: AppColorScheme.of(context).shimmer,
-                        highlightColor: Colors.black,
-                        child: Container(
-                          height: 60,
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                              color: Colors.black12,
+                        );
+                      }
+                    },
+                  ),
+                  BlocConsumer<SmsValueCubit, SmsValueState>(
+                    listener: (final context, final state) {
+                      if (state is LoadedValueSmsState) {
+                        phoneController.text = state.number;
+                      } else if (state is SmsValueErrorState) {
+                        final err = state.isCrit
+                            ? 'Произошла критическая ошибка'
+                            : 'Ошибка соединения с сервером. Данные обрабатываются локальным хранилищем';
+                        CustomSnackbar.showSnackBar(context, err);
+                      }
+                    },
+                    builder: (final context, final state) {
+                      if (state is LoadedValueSmsState) {
+                        return TextField(
+                          controller: phoneController,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter your number',
+                          ),
+                        );
+                      } else {
+                        return Shimmer.fromColors(
+                          baseColor: AppColorScheme.of(context).shimmer,
+                          highlightColor: Colors.black,
+                          child: Container(
+                            height: 60,
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                color: Colors.black12,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                  },
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: saveButton,
-                    //TODO: LOCALE
-                    child: const Text('Сохранить'),
+                        );
+                      }
+                    },
                   ),
-                ),
-              ].withSpacing(12.0),
-            ),
-            CustomSection(
-              'Загрузить с облака',
-              [
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: syncButton,
-                    //TODO: LOCALE
-                    child: const Text('Загрузить данные'),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: saveButton,
+                      //TODO: LOCALE
+                      child: const Text('Сохранить'),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            CustomSection(
-              'Тема приложения',
-              [
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: syncButton,
-                    //TODO: LOCALE
-                    child: const Text('Сменить тему приложения'),
+                ].withSpacing(12),
+              ),
+              CustomSection(
+                'Загрузить с облака',
+                [
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: syncButton,
+                      //TODO: LOCALE
+                      child: const Text('Загрузить данные'),
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+              CustomSection(
+                'Тема приложения',
+                [
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: changeTheme,
+                      //TODO: LOCALE
+                      child: const Text('Сменить тему приложения'),
+                    ),
+                  ),
+                ],
+              ),
 
-            const SizedBox(
-              height: 30,
-            ),
-          ],
-        ).withSpacing(12.0),
-      ),
-    );
-  }
+              const SizedBox(
+                height: 30,
+              ),
+            ],
+          ).withSpacing(12),
+        ),
+      );
 }

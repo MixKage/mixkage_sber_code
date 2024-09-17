@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 extension PaddingWidgets on Row {
   /// Создает новый [Row] с отступами между дочерними виджетами.
-  Row withSpacing(double spacing) {
+  Row withSpacing(final double spacing) {
     // Создаем список виджетов с отступами
     final childrenWithSpacing = <Widget>[];
     for (int i = 0; i < children.length; i++) {

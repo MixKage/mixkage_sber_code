@@ -13,7 +13,7 @@ class SmsValueCubit extends Cubit<SmsValueState> {
 
   SmsValueCubit(this._iserv) : super(const LoadingValueSmsState());
 
-  void setValue(final String number) async {
+  Future<void> setValue(final String number) async {
     try {
       try {
         await _iserv.updateSmsSettings(newPhone: number);
@@ -28,10 +28,10 @@ class SmsValueCubit extends Cubit<SmsValueState> {
     }
   }
 
-  void getValue() async {
+  Future<void> getValue() async {
     try {
-      int userId = int.parse(
-          (await getIt<SecureStorage>().get(key: SSKeys.userId.keyName))!);
+      final int userId = int.parse(
+          (await getIt<SecureStorage>().get(key: SSKeys.userId.keyName))!,);
       try {
         final user = await _iserv.getUserById(userId: userId);
         await getIt<InternetServiceLocal>().updateAllUser(newUser: user);

@@ -30,74 +30,74 @@ class MixKageApp extends StatefulWidget {
 /// Глобальное состояние всего приложения
 class _MixKageAppState extends State<MixKageApp> {
   @override
-  Widget build(final BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<ThemeBloc>(
-          create: (final context) => ThemeBloc()
-            ..add(
-              const ThemeLoadSaved(),
-            ),
-        ),
-        BlocProvider<L10nBloc>(
-          create: (final context) => L10nBloc()
-            ..add(
-              const L10nLoadSaved(),
-            ),
-        ),
-        BlocProvider<SnackBarNotifyCubit>(
-          create: (context) => SnackBarNotifyCubit(),
-        ),
-        BlocProvider(
-          create: (context) => SmsNotifyCheckBoxCubit(getIt<InternetService>()),
-        ),
-        BlocProvider(
-          create: (context) => SmsValueCubit(getIt<InternetService>()),
-        ),
-        BlocProvider(
-          create: (context) =>
-              EmailNotifyCheckBoxCubit(getIt<InternetService>()),
-        ),
-        BlocProvider(
-          create: (context) => EmailValueCubit(getIt<InternetService>()),
-        ),
-        BlocProvider(
-          create: (context) =>
-              PushNotifyCheckBoxCubit(getIt<InternetService>()),
-        ),
-      ],
-      child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (final context, final themeState) =>
-            BlocBuilder<L10nBloc, L10nState>(
-          builder: (final context, final l10nState) =>
-              BlocListener<SnackBarNotifyCubit, SnackBarNotifyState>(
-            listener: (context, state) {
-              if (state is ShowSnackBarState) {
-                CustomSnackbar.showSnackBar(context, state.message);
-              }
-            },
-            child: MaterialApp.router(
-              supportedLocales: S.delegate.supportedLocales,
-              locale: l10nState.locale,
-              localizationsDelegates: const [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-              ],
-              routeInformationParser: AppRouter.router.routeInformationParser,
-              routerDelegate: AppRouter.router.routerDelegate,
-              routeInformationProvider:
-                  AppRouter.router.routeInformationProvider,
-              theme: AppThemeData.lightTheme,
-              darkTheme: AppThemeData.darkTheme,
-              themeMode: themeState.activeTheme,
-              debugShowCheckedModeBanner: Config.environmentFlavor.isDebug,
+  Widget build(final BuildContext context) => MultiBlocProvider(
+        providers: [
+          BlocProvider<ThemeBloc>(
+            create: (final context) => ThemeBloc()
+              ..add(
+                const ThemeLoadSaved(),
+              ),
+          ),
+          BlocProvider<L10nBloc>(
+            create: (final context) => L10nBloc()
+              ..add(
+                const L10nLoadSaved(),
+              ),
+          ),
+          BlocProvider<SnackBarNotifyCubit>(
+            create: (final context) => SnackBarNotifyCubit(),
+          ),
+          BlocProvider(
+            create: (final context) =>
+                SmsNotifyCheckBoxCubit(getIt<InternetService>()),
+          ),
+          BlocProvider(
+            create: (final context) => SmsValueCubit(getIt<InternetService>()),
+          ),
+          BlocProvider(
+            create: (final context) =>
+                EmailNotifyCheckBoxCubit(getIt<InternetService>()),
+          ),
+          BlocProvider(
+            create: (final context) =>
+                EmailValueCubit(getIt<InternetService>()),
+          ),
+          BlocProvider(
+            create: (final context) =>
+                PushNotifyCheckBoxCubit(getIt<InternetService>()),
+          ),
+        ],
+        child: BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (final context, final themeState) =>
+              BlocBuilder<L10nBloc, L10nState>(
+            builder: (final context, final l10nState) =>
+                BlocListener<SnackBarNotifyCubit, SnackBarNotifyState>(
+              listener: (final context, final state) {
+                if (state is ShowSnackBarState) {
+                  CustomSnackbar.showSnackBar(context, state.message);
+                }
+              },
+              child: MaterialApp.router(
+                supportedLocales: S.delegate.supportedLocales,
+                locale: l10nState.locale,
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                ],
+                routeInformationParser: AppRouter.router.routeInformationParser,
+                routerDelegate: AppRouter.router.routerDelegate,
+                routeInformationProvider:
+                    AppRouter.router.routeInformationProvider,
+                theme: AppThemeData.lightTheme,
+                darkTheme: AppThemeData.darkTheme,
+                themeMode: themeState.activeTheme,
+                debugShowCheckedModeBanner: Config.environmentFlavor.isDebug,
+              ),
             ),
           ),
         ),
-      ),
-      // ),
-    );
-  }
+        // ),
+      );
 }

@@ -13,12 +13,12 @@ class InternetServiceDio implements InternetService {
   InternetServiceDio(this._client, this._sstorage);
 
   @override
-  Future<User> getUserById({required int userId}) async {
+  Future<User> getUserById({required final int userId}) async {
     try {
-      int userId =
+      final int userId =
           int.parse((await _sstorage.get(key: SSKeys.userId.keyName))!);
 
-      var response = await _client.get(
+      final response = await _client.get(
         '${Config.apiUri}users/$userId',
       );
 
@@ -30,9 +30,10 @@ class InternetServiceDio implements InternetService {
   }
 
   @override
-  Future<void> updateEmailSettings({String? newEmail, bool? newValue}) async {
+  Future<void> updateEmailSettings(
+      {final String? newEmail, final bool? newValue}) async {
     try {
-      int userId =
+      final int userId =
           int.parse((await _sstorage.get(key: SSKeys.userId.keyName))!);
 
       final User user = await getUserById(userId: userId);
@@ -41,9 +42,11 @@ class InternetServiceDio implements InternetService {
         '${Config.apiUri}users/$userId',
         data: user
             .copyWith(
-                notificationSettings: user.notificationSettings.copyWith(
-                    email: user.notificationSettings.email
-                        .copyWith(address: newEmail, enabled: newValue)))
+              notificationSettings: user.notificationSettings.copyWith(
+                email: user.notificationSettings.email
+                    .copyWith(address: newEmail, enabled: newValue),
+              ),
+            )
             .toJson(),
       );
     } catch (e) {
@@ -53,9 +56,9 @@ class InternetServiceDio implements InternetService {
   }
 
   @override
-  Future<void> updatePushSettings({required bool newValue}) async {
+  Future<void> updatePushSettings({required final bool newValue}) async {
     try {
-      int userId =
+      final int userId =
           int.parse((await _sstorage.get(key: SSKeys.userId.keyName))!);
 
       final User user = await getUserById(userId: userId);
@@ -64,9 +67,11 @@ class InternetServiceDio implements InternetService {
         '${Config.apiUri}users/$userId',
         data: user
             .copyWith(
-                notificationSettings: user.notificationSettings.copyWith(
-                    push: user.notificationSettings.push
-                        .copyWith(enabled: newValue)))
+              notificationSettings: user.notificationSettings.copyWith(
+                push:
+                    user.notificationSettings.push.copyWith(enabled: newValue),
+              ),
+            )
             .toJson(),
       );
     } catch (e) {
@@ -76,9 +81,10 @@ class InternetServiceDio implements InternetService {
   }
 
   @override
-  Future<void> updateSmsSettings({String? newPhone, bool? newValue}) async {
+  Future<void> updateSmsSettings(
+      {final String? newPhone, final bool? newValue}) async {
     try {
-      int userId =
+      final int userId =
           int.parse((await _sstorage.get(key: SSKeys.userId.keyName))!);
 
       final User user = await getUserById(userId: userId);
@@ -87,9 +93,11 @@ class InternetServiceDio implements InternetService {
         '${Config.apiUri}users/$userId',
         data: user
             .copyWith(
-                notificationSettings: user.notificationSettings.copyWith(
-                    sms: user.notificationSettings.sms
-                        .copyWith(number: newPhone, enabled: newValue)))
+              notificationSettings: user.notificationSettings.copyWith(
+                sms: user.notificationSettings.sms
+                    .copyWith(number: newPhone, enabled: newValue),
+              ),
+            )
             .toJson(),
       );
     } catch (e) {
@@ -99,9 +107,9 @@ class InternetServiceDio implements InternetService {
   }
 
   @override
-  Future<void> updateUserName({required String newName}) async {
+  Future<void> updateUserName({required final String newName}) async {
     try {
-      int userId =
+      final int userId =
           int.parse((await _sstorage.get(key: SSKeys.userId.keyName))!);
 
       final user = await getUserById(userId: userId);

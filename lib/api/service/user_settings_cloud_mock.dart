@@ -5,27 +5,32 @@ class InternetServiceMock implements InternetService {
   InternetServiceMock();
 
   @override
-  Future<void> updateEmailSettings({String? newEmail, bool? newValue}) async {
-    Future.delayed(const Duration(milliseconds: 100));
+  Future<void> updateEmailSettings({
+    final String? newEmail,
+    final bool? newValue,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 100));
   }
 
   @override
-  Future<void> updatePushSettings({required bool newValue}) async {
-    Future.delayed(const Duration(milliseconds: 100));
+  Future<void> updatePushSettings({required final bool newValue}) async {
+    await Future.delayed(const Duration(milliseconds: 100));
   }
 
   @override
-  Future<void> updateSmsSettings({String? newPhone, bool? newValue}) async {
-    Future.delayed(const Duration(milliseconds: 100));
+  Future<void> updateSmsSettings({
+    final String? newPhone,
+    final bool? newValue,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 100));
   }
 
   @override
-  Future<void> updateUserName({required String newName}) async {
-    Future.delayed(const Duration(milliseconds: 100));
+  Future<void> updateUserName({required final String newName}) async {
+    await Future.delayed(const Duration(milliseconds: 100));
   }
 
   @override
-  Future<User> getUserById({required int userId}) {
-    return Future.value(User.defaultConstructor());
-  }
+  Future<User> getUserById({required final int userId}) =>
+      Future.value(User.defaultConstructor());
 }

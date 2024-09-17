@@ -31,8 +31,7 @@ class _UserCardState extends State<UserCard> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
+  Widget build(final BuildContext context) => Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         gradient: LinearGradient(
@@ -40,24 +39,23 @@ class _UserCardState extends State<UserCard> {
           end: Alignment.bottomRight,
           colors: [
             AppColorScheme.of(context).surfaceSecondary,
-            Colors.green[700]!
+            Colors.green[700]!,
           ],
         ),
       ),
       constraints: const BoxConstraints(
-          minWidth: 350, maxWidth: 400, minHeight: 160, maxHeight: 180),
+          minWidth: 350, maxWidth: 400, minHeight: 160, maxHeight: 180,),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             BlocBuilder<EmailValueCubit, EmailValueState>(
-              builder: (context, state) {
+              builder: (final context, final state) {
                 if (state is LoadedValueEmailState) {
                   return Text(state.email,
-                      style: AppTextScheme.of(context).headline);
+                      style: AppTextScheme.of(context).headline,);
                 } else {
                   return Shimmer.fromColors(
                     //TODO: LOCALE
@@ -65,16 +63,16 @@ class _UserCardState extends State<UserCard> {
                     highlightColor: Colors.black,
                     //TODO: LOCALE
                     child: Text('Loading...',
-                        style: AppTextScheme.of(context).headline),
+                        style: AppTextScheme.of(context).headline,),
                   );
                 }
               },
             ),
             BlocBuilder<SmsValueCubit, SmsValueState>(
-              builder: (context, state) {
+              builder: (final context, final state) {
                 if (state is LoadedValueSmsState) {
                   return Text(state.number,
-                      style: AppTextScheme.of(context).headline);
+                      style: AppTextScheme.of(context).headline,);
                 } else {
                   return Shimmer.fromColors(
                     //TODO: LOCALE
@@ -82,7 +80,7 @@ class _UserCardState extends State<UserCard> {
                     highlightColor: Colors.black,
                     //TODO: LOCALE
                     child: Text('Loading...',
-                        style: AppTextScheme.of(context).headline),
+                        style: AppTextScheme.of(context).headline,),
                   );
                 }
               },
@@ -91,7 +89,7 @@ class _UserCardState extends State<UserCard> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 BlocBuilder<PushNotifyCheckBoxCubit, PushNotifyState>(
-                  builder: (context, state) {
+                  builder: (final context, final state) {
                     if (state is LoadedPushState) {
                       return Icon(
                         state.isEnable
@@ -108,11 +106,11 @@ class _UserCardState extends State<UserCard> {
                         child: const Icon(
                           Icons.notifications_active,
                           size: 30,
-                        ));
+                        ),);
                   },
                 ),
                 BlocBuilder<SmsNotifyCheckBoxCubit, SmsNotifyState>(
-                  builder: (context, state) {
+                  builder: (final context, final state) {
                     if (state is LoadedSmsState) {
                       return Icon(
                         state.isEnable ? Icons.message : Icons.message_outlined,
@@ -127,11 +125,11 @@ class _UserCardState extends State<UserCard> {
                         child: const Icon(
                           Icons.message,
                           size: 30,
-                        ));
+                        ),);
                   },
                 ),
                 BlocBuilder<EmailNotifyCheckBoxCubit, EmailNotifyState>(
-                  builder: (context, state) {
+                  builder: (final context, final state) {
                     if (state is LoadedEmailState) {
                       return Icon(
                         state.isEnable ? Icons.email : Icons.email_outlined,
@@ -146,14 +144,13 @@ class _UserCardState extends State<UserCard> {
                         child: const Icon(
                           Icons.message,
                           size: 30,
-                        ));
+                        ),);
                   },
                 ),
               ],
-            ).withSpacing(8.0),
+            ).withSpacing(8),
           ],
-        ).withSpacing(8.0),
+        ).withSpacing(8),
       ),
     );
-  }
 }

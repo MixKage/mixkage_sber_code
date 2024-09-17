@@ -10,15 +10,14 @@ class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(final BuildContext context) => Scaffold(
       backgroundColor: AppColorScheme.of(context).surface,
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar.large(
             //TODO: LOCALE IT
-            expandedHeight: 150.0,
+            expandedHeight: 150,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
               title: Text(
@@ -33,7 +32,7 @@ class SettingsScreen extends StatelessWidget {
                     end: Alignment.topLeft,
                     colors: [
                       AppColorScheme.of(context).primary,
-                      AppColorScheme.of(context).positive
+                      AppColorScheme.of(context).positive,
                     ],
                   ),
                 ),
@@ -49,7 +48,8 @@ class SettingsScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () async {
-                  final Uri url = Uri.parse('https://github.com/MixKage');
+                  final Uri url =
+                      Uri.parse('https://github.com/MixKage/mixkage_sber_code');
                   if (await canLaunchUrl(url)) {
                     await launchUrl(url);
                   } else {
@@ -63,5 +63,4 @@ class SettingsScreen extends StatelessWidget {
         ],
       ),
     );
-  }
 }

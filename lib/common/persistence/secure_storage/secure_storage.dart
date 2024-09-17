@@ -16,8 +16,8 @@ class SecureStorage {
 
   /// Public factory
   static Future<SecureStorage> initDefaultValue(
-      FlutterSecureStorage storage) async {
-    var component = SecureStorage._create(storage);
+      final FlutterSecureStorage storage,) async {
+    final component = SecureStorage._create(storage);
 
     // Так как задачи на регистрации пользователя не стоит
     // Просто инициализируем базовые значения
@@ -30,7 +30,7 @@ class SecureStorage {
     if (defaultUser == null) {
       await storage.write(
           key: '${SSKeys.user.keyName}/1',
-          value: jsonEncode((User.defaultConstructor()).toJson()));
+          value: jsonEncode(User.defaultConstructor().toJson()),);
     }
 
     return component;

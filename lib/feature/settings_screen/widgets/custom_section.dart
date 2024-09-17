@@ -3,7 +3,7 @@ import 'package:mixkage_sber_code/common/theme/app_color_scheme.dart';
 import 'package:mixkage_sber_code/common/theme/app_text_scheme.dart';
 
 class CustomSection extends StatelessWidget {
-  static const double horizontalPadding = 8.0;
+  static const double horizontalPadding = 8;
 
   final String nameSection;
   final List<Widget> body;
@@ -15,8 +15,7 @@ class CustomSection extends StatelessWidget {
   const CustomSection(this.nameSection, this.body, {super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ConstrainedBox(
+  Widget build(final BuildContext context) => ConstrainedBox(
       constraints: const BoxConstraints(minWidth: 100, maxWidth: 400),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +28,7 @@ class CustomSection extends StatelessWidget {
               style: AppTextScheme.of(context).settingsLabel,
             ),
           ),
-          Container(
+          DecoratedBox(
             decoration: BoxDecoration(
               color: AppColorScheme.of(context).onPrimary,
               borderRadius: BorderRadius.circular(30),
@@ -45,5 +44,4 @@ class CustomSection extends StatelessWidget {
         ],
       ),
     );
-  }
 }

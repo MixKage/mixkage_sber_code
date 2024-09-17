@@ -15,39 +15,34 @@ class User {
   // Конструктор по умолчанию
   User.defaultConstructor()
       : id = 1,
-        name = "John Doe",
+        name = 'John Doe',
         notificationSettings = NotificationSettings.defaultConstructor();
 
   // Конвертация объекта в JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'notificationSettings': notificationSettings.toJson(),
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'notificationSettings': notificationSettings.toJson(),
+      };
 
   // Создание объекта из JSON
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'] is int ? json['id'] : int.parse(json['id']),
-      name: json['name'],
-      notificationSettings:
-          NotificationSettings.fromJson(json['notificationSettings']),
-    );
-  }
+  factory User.fromJson(final Map<String, dynamic> json) => User(
+        id: json['id'] is int ? json['id'] : int.parse(json['id']),
+        name: json['name'],
+        notificationSettings:
+            NotificationSettings.fromJson(json['notificationSettings']),
+      );
 
   User copyWith({
-    int? id,
-    String? name,
-    NotificationSettings? notificationSettings,
-  }) {
-    return User(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      notificationSettings: notificationSettings ?? this.notificationSettings,
-    );
-  }
+    final int? id,
+    final String? name,
+    final NotificationSettings? notificationSettings,
+  }) =>
+      User(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        notificationSettings: notificationSettings ?? this.notificationSettings,
+      );
 }
 
 class NotificationSettings {
@@ -69,34 +64,30 @@ class NotificationSettings {
         email = EmailSettings.defaultConstructor();
 
   // Конвертация объекта в JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'sms': sms.toJson(),
-      'push': push.toJson(),
-      'email': email.toJson(),
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'sms': sms.toJson(),
+        'push': push.toJson(),
+        'email': email.toJson(),
+      };
 
   // Создание объекта из JSON
-  factory NotificationSettings.fromJson(Map<String, dynamic> json) {
-    return NotificationSettings(
-      sms: SmsSettings.fromJson(json['sms']),
-      push: PushSettings.fromJson(json['push']),
-      email: EmailSettings.fromJson(json['email']),
-    );
-  }
+  factory NotificationSettings.fromJson(final Map<String, dynamic> json) =>
+      NotificationSettings(
+        sms: SmsSettings.fromJson(json['sms']),
+        push: PushSettings.fromJson(json['push']),
+        email: EmailSettings.fromJson(json['email']),
+      );
 
   NotificationSettings copyWith({
-    SmsSettings? sms,
-    PushSettings? push,
-    EmailSettings? email,
-  }) {
-    return NotificationSettings(
-      sms: sms ?? this.sms,
-      push: push ?? this.push,
-      email: email ?? this.email,
-    );
-  }
+    final SmsSettings? sms,
+    final PushSettings? push,
+    final EmailSettings? email,
+  }) =>
+      NotificationSettings(
+        sms: sms ?? this.sms,
+        push: push ?? this.push,
+        email: email ?? this.email,
+      );
 }
 
 class SmsSettings {
@@ -112,33 +103,28 @@ class SmsSettings {
   // Конструктор по умолчанию
   SmsSettings.defaultConstructor()
       : enabled = true,
-        number = "+123456789";
+        number = '+123456789';
 
   // Конвертация объекта в JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'enabled': enabled,
-      'number': number,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'enabled': enabled,
+        'number': number,
+      };
 
   // Создание объекта из JSON
-  factory SmsSettings.fromJson(Map<String, dynamic> json) {
-    return SmsSettings(
-      enabled: json['enabled'],
-      number: json['number'],
-    );
-  }
+  factory SmsSettings.fromJson(final Map<String, dynamic> json) => SmsSettings(
+        enabled: json['enabled'],
+        number: json['number'],
+      );
 
   SmsSettings copyWith({
-    bool? enabled,
-    String? number,
-  }) {
-    return SmsSettings(
-      enabled: enabled ?? this.enabled,
-      number: number ?? this.number,
-    );
-  }
+    final bool? enabled,
+    final String? number,
+  }) =>
+      SmsSettings(
+        enabled: enabled ?? this.enabled,
+        number: number ?? this.number,
+      );
 }
 
 class PushSettings {
@@ -153,26 +139,22 @@ class PushSettings {
   PushSettings.defaultConstructor() : enabled = true;
 
   // Конвертация объекта в JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'enabled': enabled,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'enabled': enabled,
+      };
 
   // Создание объекта из JSON
-  factory PushSettings.fromJson(Map<String, dynamic> json) {
-    return PushSettings(
-      enabled: json['enabled'],
-    );
-  }
+  factory PushSettings.fromJson(final Map<String, dynamic> json) =>
+      PushSettings(
+        enabled: json['enabled'],
+      );
 
   PushSettings copyWith({
-    bool? enabled,
-  }) {
-    return PushSettings(
-      enabled: enabled ?? this.enabled,
-    );
-  }
+    final bool? enabled,
+  }) =>
+      PushSettings(
+        enabled: enabled ?? this.enabled,
+      );
 }
 
 class EmailSettings {
@@ -188,31 +170,27 @@ class EmailSettings {
   // Конструктор по умолчанию
   EmailSettings.defaultConstructor()
       : enabled = false,
-        address = "john.doe@example.com";
+        address = 'john.doe@example.com';
 
   // Конвертация объекта в JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'enabled': enabled,
-      'address': address,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'enabled': enabled,
+        'address': address,
+      };
 
   // Создание объекта из JSON
-  factory EmailSettings.fromJson(Map<String, dynamic> json) {
-    return EmailSettings(
-      enabled: json['enabled'],
-      address: json['address'],
-    );
-  }
+  factory EmailSettings.fromJson(final Map<String, dynamic> json) =>
+      EmailSettings(
+        enabled: json['enabled'],
+        address: json['address'],
+      );
 
   EmailSettings copyWith({
-    bool? enabled,
-    String? address,
-  }) {
-    return EmailSettings(
-      enabled: enabled ?? this.enabled,
-      address: address ?? this.address,
-    );
-  }
+    final bool? enabled,
+    final String? address,
+  }) =>
+      EmailSettings(
+        enabled: enabled ?? this.enabled,
+        address: address ?? this.address,
+      );
 }

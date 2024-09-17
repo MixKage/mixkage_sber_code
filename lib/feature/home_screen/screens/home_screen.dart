@@ -9,15 +9,14 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(final BuildContext context) => Scaffold(
       backgroundColor: AppColorScheme.of(context).surface,
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar.large(
             //TODO: LOCALE IT
-            expandedHeight: 150.0,
+            expandedHeight: 150,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
               title: Text(
@@ -49,5 +48,4 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
-  }
 }
